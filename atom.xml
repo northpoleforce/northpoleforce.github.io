@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://northpoleforce.github.io</id>
     <title>northpoleforce&apos;s Blog</title>
-    <updated>2020-04-24T13:14:25.383Z</updated>
+    <updated>2020-04-24T13:19:16.074Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://northpoleforce.github.io"/>
     <link rel="self" href="https://northpoleforce.github.io/atom.xml"/>
@@ -11,7 +11,7 @@
     <icon>https://northpoleforce.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, northpoleforce&apos;s Blog</rights>
     <entry>
-        <title type="html"><![CDATA[SP4882题解]]></title>
+        <title type="html"><![CDATA[SPOJ4882题解]]></title>
         <id>https://northpoleforce.github.io/post/sp4882-ti-jie/</id>
         <link href="https://northpoleforce.github.io/post/sp4882-ti-jie/">
         </link>
