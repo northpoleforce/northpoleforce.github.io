@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" >
 
-<title>高一下一检 | northpoleforce&#39;s Blog</title>
+<title>SP4882题解 | northpoleforce&#39;s Blog</title>
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
@@ -18,11 +18,16 @@
 
 
 
-    <meta name="description" content="反思与总结
-为自己的摸鱼行为付出了惨痛的代价
+    <meta name="description" content="由于SPOJ的服务器过于优异，暴力也给过了。
+STL真是个好东西。
 
-上课时期：总是喜欢摸鱼。上着课走神，不听某些课或者一边听一边水群、刷知乎、逛论坛；课前不预习，课后不复习。
-课后时间：马马虎虎把作业做了，不懂的知识点随便过下；背书从不当回事，不喜欢背书，总是..." />
+主要思路：求出一个点能到达的点集，然后把点集的各个点权值加起来
+
+
+使用STL的bitset记录能到达的点集
+拓扑排序得到拓扑序列，倒序遍历拓扑序列，更新能到达的点集
+
+..." />
     <meta name="keywords" content="" />
   </head>
   <body>
@@ -94,31 +99,99 @@
       <div class="main-container">
         <div class="content-container" data-aos="fade-up">
           <div class="post-detail">
-            <h2 class="post-title">高一下一检</h2>
+            <h2 class="post-title">SP4882题解</h2>
             <div class="post-date">2020-04-24</div>
             
             <div class="post-content" v-pre>
-              <h1 id="反思与总结">反思与总结</h1>
-<h3 id="为自己的摸鱼行为付出了惨痛的代价">为自己的摸鱼行为付出了惨痛的代价</h3>
+              <p>由于SPOJ的服务器<strong>过于优异</strong>，暴力也给过了。<br>
+<strong>STL</strong>真是个好东西。</p>
+<blockquote>
+<p>主要思路：求出一个点能到达的点集，然后把点集的各个点权值加起来</p>
+</blockquote>
 <ol>
-<li>上课时期：总是喜欢摸鱼。上着课走神，不听某些课或者一边听一边水群、刷知乎、逛论坛；课前不预习，课后不复习。</li>
-<li>课后时间：马马虎虎把作业做了，不懂的知识点随便过下；背书从不当回事，不喜欢背书，总是临时抱佛脚但效果却很糟糕；不复习学过的知识点，学过的东西基本是过几天就忘了，没有形成自己的知识体系</li>
-<li>考试前：复习时居然还是忍不住摸鱼了，复习效率很低，这跟我平时对知识的整理有很大的关系，感觉很多东西都是新的。特别是面对要背的堆积成山的资料更是头大。</li>
-<li>考试时：因为很多知识的缺漏，导致有些题目不会做，然后发现很多题不会做，心态大崩，然后就非常紧张，一紧张就容易出错。能力也有所欠缺，跟平时做作业随便懒散有很大的关系。</li>
+<li>使用STL的bitset记录能到达的点集</li>
+<li>拓扑排序得到拓扑序列，倒序遍历拓扑序列，更新能到达的点集</li>
 </ol>
-<h1 id="下阶段如何安排学习">下阶段如何安排学习</h1>
-<h3 id="啊一检真的刺激到我了摸鱼一时爽一直摸鱼见祖宗">啊，一检真的刺激到我了，摸鱼一时爽，一直摸鱼见祖宗</h3>
-<ol>
-<li>该背的还是得背，发现自己的英语词汇量严重不足，得狠狠地攒一手。然后音标什么的也要学学，之前摸索了点皮毛还是不够。</li>
-<li>课间15min非常有用，下课后5min可以回想一下刚刚学习的知识，上课前5min可以预习一下接着上课的内容，还有5min可以休息一下，劳逸结合。</li>
-<li>每天早点起来背背单词，晚上睡觉前回忆整理一下今天学过的知识。</li>
-<li>作业要认真完成，不能拖延，不懂的知识点要努力整懂，不能不懂装懂</li>
-<li>要制定作息计划和学习计划，每周进行复盘。</li>
-<li>上课要认真上课，上课时退掉通讯软件，不划水不摸鱼，及时理解知识，整理进自己的知识体系中。</li>
-</ol>
+<pre><code class="language-cpp">#include &lt;cstring&gt;
+#include &lt;cstdio&gt;
+#include &lt;bitset&gt;
+
+using namespace std;
+
+const int maxn = 20003;
+const int maxen = 500003;
+
+int n, m, val[maxn];
+int in[maxn], qn, que[maxn];
+int head[maxn], las[maxen], to[maxen];
+
+bitset &lt;20003&gt; have[maxn];
+
+void topo() {
+	qn = 0;
+	for (int i = 1; i &lt;= n; i++)
+		if (! in[i]) que[++qn] = i;
+	for (int i = 1, u, v; i &lt;= qn; i++) {
+		u = que[i];
+		for (int j = head[u]; j; j = las[j]) {
+			v = to[j]; in[v]--;
+			if (! in[v]) que[++qn] = v;
+		}
+	}
+}
+void solve() {
+	for (int i = qn, u, v; i &gt;= 1; i--) {
+		u = que[i];
+		for (int j = head[u]; j; j = las[j]) {
+			v = to[j];
+			have[u] |= have[v];
+		}
+	}
+	for (int i = 1, ans; i &lt;= n; i++) {
+		ans = 0;
+		for (int j = 1; j &lt;= n; j++)
+			if (have[i][j]) ans += val[j];
+		printf(&quot;%d &quot;, ans);
+		have[i].reset();
+	}
+	printf(&quot;\n&quot;);
+}
+
+int main() {
+	int T; scanf(&quot;%d&quot;, &amp;T);
+	while (T--) {
+		scanf(&quot;%d%d&quot;, &amp;n, &amp;m);
+		for (int i = 1; i &lt;= n; i++) {
+			scanf(&quot;%d&quot;, &amp;val[i]);
+			have[i][i] = 1;
+		}
+		
+		memset(head, 0, sizeof(head));
+		for (int i = 1, u, v; i &lt;= m; i++) {
+			scanf(&quot;%d%d&quot;, &amp;u, &amp;v);
+			to[i] = v; las[i] = head[u]; head[u] = i;
+			in[v]++;
+		}
+		
+		topo();
+		solve();
+	}
+	
+	return 0;
+}
+</code></pre>
 
             </div>
             
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://northpoleforce.github.io/post/shu-xue/">
+                  <h3 class="post-title">
+                    数学
+                  </h3>
+                </a>
+              </div>
             
 
             

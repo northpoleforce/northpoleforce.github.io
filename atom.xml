@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://northpoleforce.github.io</id>
     <title>northpoleforce&apos;s Blog</title>
-    <updated>2020-04-24T13:09:53.862Z</updated>
+    <updated>2020-04-24T13:14:00.593Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://northpoleforce.github.io"/>
     <link rel="self" href="https://northpoleforce.github.io/atom.xml"/>
@@ -10,6 +10,117 @@
     <logo>https://northpoleforce.github.io/images/avatar.png</logo>
     <icon>https://northpoleforce.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, northpoleforce&apos;s Blog</rights>
+    <entry>
+        <title type="html"><![CDATA[SP4882题解]]></title>
+        <id>https://northpoleforce.github.io/post/sp4882-ti-jie/</id>
+        <link href="https://northpoleforce.github.io/post/sp4882-ti-jie/">
+        </link>
+        <updated>2020-04-24T13:13:43.000Z</updated>
+        <content type="html"><![CDATA[<p>由于SPOJ的服务器<strong>过于优异</strong>，暴力也给过了。<br>
+<strong>STL</strong>真是个好东西。</p>
+<blockquote>
+<p>主要思路：求出一个点能到达的点集，然后把点集的各个点权值加起来</p>
+</blockquote>
+<ol>
+<li>使用STL的bitset记录能到达的点集</li>
+<li>拓扑排序得到拓扑序列，倒序遍历拓扑序列，更新能到达的点集</li>
+</ol>
+<pre><code class="language-cpp">#include &lt;cstring&gt;
+#include &lt;cstdio&gt;
+#include &lt;bitset&gt;
+
+using namespace std;
+
+const int maxn = 20003;
+const int maxen = 500003;
+
+int n, m, val[maxn];
+int in[maxn], qn, que[maxn];
+int head[maxn], las[maxen], to[maxen];
+
+bitset &lt;20003&gt; have[maxn];
+
+void topo() {
+	qn = 0;
+	for (int i = 1; i &lt;= n; i++)
+		if (! in[i]) que[++qn] = i;
+	for (int i = 1, u, v; i &lt;= qn; i++) {
+		u = que[i];
+		for (int j = head[u]; j; j = las[j]) {
+			v = to[j]; in[v]--;
+			if (! in[v]) que[++qn] = v;
+		}
+	}
+}
+void solve() {
+	for (int i = qn, u, v; i &gt;= 1; i--) {
+		u = que[i];
+		for (int j = head[u]; j; j = las[j]) {
+			v = to[j];
+			have[u] |= have[v];
+		}
+	}
+	for (int i = 1, ans; i &lt;= n; i++) {
+		ans = 0;
+		for (int j = 1; j &lt;= n; j++)
+			if (have[i][j]) ans += val[j];
+		printf(&quot;%d &quot;, ans);
+		have[i].reset();
+	}
+	printf(&quot;\n&quot;);
+}
+
+int main() {
+	int T; scanf(&quot;%d&quot;, &amp;T);
+	while (T--) {
+		scanf(&quot;%d%d&quot;, &amp;n, &amp;m);
+		for (int i = 1; i &lt;= n; i++) {
+			scanf(&quot;%d&quot;, &amp;val[i]);
+			have[i][i] = 1;
+		}
+		
+		memset(head, 0, sizeof(head));
+		for (int i = 1, u, v; i &lt;= m; i++) {
+			scanf(&quot;%d%d&quot;, &amp;u, &amp;v);
+			to[i] = v; las[i] = head[u]; head[u] = i;
+			in[v]++;
+		}
+		
+		topo();
+		solve();
+	}
+	
+	return 0;
+}
+</code></pre>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[数学]]></title>
+        <id>https://northpoleforce.github.io/post/shu-xue/</id>
+        <link href="https://northpoleforce.github.io/post/shu-xue/">
+        </link>
+        <updated>2020-04-24T13:13:19.000Z</updated>
+        <content type="html"><![CDATA[<figure data-type="image" tabindex="1"><img src="https://upload-images.jianshu.io/upload_images/19145974-a05a6496ccc108c3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="斐波那契数列.png" loading="lazy"></figure>
+<blockquote>
+<p><strong>冰雹猜想</strong><br>
+一个正整数x，如果是奇数就乘以3再加1，如果是偶数就析出偶数因数2ⁿ，这样经过若干个次数，最终回到1。</p>
+</blockquote>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[几何性质]]></title>
+        <id>https://northpoleforce.github.io/post/ji-he-xing-zhi/</id>
+        <link href="https://northpoleforce.github.io/post/ji-he-xing-zhi/">
+        </link>
+        <updated>2020-04-24T13:12:35.000Z</updated>
+        <content type="html"><![CDATA[<h1 id="凸多边形对角线交点">凸多边形对角线交点</h1>
+<blockquote>
+<p><strong>任何</strong>三条对角线不会交于<strong>1</strong>点<br>
+两条对角线确定<strong>4</strong>个顶点</p>
+</blockquote>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[一周学习总结表20200418]]></title>
         <id>https://northpoleforce.github.io/post/yi-zhou-xue-xi-zong-jie-biao-20200418/</id>
@@ -126,38 +237,6 @@
 <li>要制定作息计划和学习计划，每周进行复盘。</li>
 <li>上课要认真上课，上课时退掉通讯软件，不划水不摸鱼，及时理解知识，整理进自己的知识体系中。</li>
 </ol>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Hello Gridea]]></title>
-        <id>https://northpoleforce.github.io/post/hello-gridea/</id>
-        <link href="https://northpoleforce.github.io/post/hello-gridea/">
-        </link>
-        <updated>2018-12-11T16:00:00.000Z</updated>
-        <summary type="html"><![CDATA[<p>👏  欢迎使用 <strong>Gridea</strong> ！<br>
-✍️  <strong>Gridea</strong> 一个静态博客写作客户端。你可以用它来记录你的生活、心情、知识、笔记、创意... ...</p>
-]]></summary>
-        <content type="html"><![CDATA[<p>👏  欢迎使用 <strong>Gridea</strong> ！<br>
-✍️  <strong>Gridea</strong> 一个静态博客写作客户端。你可以用它来记录你的生活、心情、知识、笔记、创意... ...</p>
-<!-- more -->
-<p><a href="https://github.com/getgridea/gridea">Github</a><br>
-<a href="https://gridea.dev/">Gridea 主页</a><br>
-<a href="http://fehey.com/">示例网站</a></p>
-<h2 id="特性">特性👇</h2>
-<p>📝  你可以使用最酷的 <strong>Markdown</strong> 语法，进行快速创作</p>
-<p>🌉  你可以给文章配上精美的封面图和在文章任意位置插入图片</p>
-<p>🏷️  你可以对文章进行标签分组</p>
-<p>📋  你可以自定义菜单，甚至可以创建外部链接菜单</p>
-<p>💻  你可以在 <strong>Windows</strong>，<strong>MacOS</strong> 或 <strong>Linux</strong> 设备上使用此客户端</p>
-<p>🌎  你可以使用 <strong>𝖦𝗂𝗍𝗁𝗎𝖻 𝖯𝖺𝗀𝖾𝗌</strong> 或 <strong>Coding Pages</strong> 向世界展示，未来将支持更多平台</p>
-<p>💬  你可以进行简单的配置，接入 <a href="https://github.com/gitalk/gitalk">Gitalk</a> 或 <a href="https://github.com/SukkaW/DisqusJS">DisqusJS</a> 评论系统</p>
-<p>🇬🇧  你可以使用<strong>中文简体</strong>或<strong>英语</strong></p>
-<p>🌁  你可以任意使用应用内默认主题或任意第三方主题，强大的主题自定义能力</p>
-<p>🖥  你可以自定义源文件夹，利用 OneDrive、百度网盘、iCloud、Dropbox 等进行多设备同步</p>
-<p>🌱 当然 <strong>Gridea</strong> 还很年轻，有很多不足，但请相信，它会不停向前 🏃</p>
-<p>未来，它一定会成为你离不开的伙伴</p>
-<p>尽情发挥你的才华吧！</p>
-<p>😘 Enjoy~</p>
 ]]></content>
     </entry>
 </feed>
