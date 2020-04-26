@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://northpoleforce.github.io</id>
     <title>northpoleforce&apos;s Blog</title>
-    <updated>2020-04-26T03:05:38.233Z</updated>
+    <updated>2020-04-26T03:12:44.991Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://northpoleforce.github.io"/>
     <link rel="self" href="https://northpoleforce.github.io/atom.xml"/>
@@ -10,6 +10,17 @@
     <logo>https://northpoleforce.github.io/images/avatar.png</logo>
     <icon>https://northpoleforce.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, northpoleforce&apos;s Blog</rights>
+    <entry>
+        <title type="html"><![CDATA[C++的奇怪操作]]></title>
+        <id>https://northpoleforce.github.io/post/cde-qi-guai-cao-zuo/</id>
+        <link href="https://northpoleforce.github.io/post/cde-qi-guai-cao-zuo/">
+        </link>
+        <updated>2020-04-26T03:06:26.000Z</updated>
+        <content type="html"><![CDATA[<blockquote>
+<p>如果你定义了一个int型，那么当cin输入表达式的值是就会检测输入的是不是数字。如果程序发现用户输入了错误内容时，程序就会锁住cin，所以你就需要重置cin来接受新的输入。这时你输入的错误数据还会在在屏幕上是在缓存区还是非缓存区？如果你再输入还是从这个数据开始读取。<a href="https://www.luogu.com.cn/blog/88464/solution-p1957">来源:Galaxy_yr 的博客</a></p>
+</blockquote>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[SPOJ4882题解]]></title>
         <id>https://northpoleforce.github.io/post/sp4882-ti-jie/</id>
